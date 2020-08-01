@@ -31,6 +31,7 @@ import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.EmbeddedCodeRequestResponse;
 import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.groupsv2.CredentialResponse;
 import org.whispersystems.signalservice.api.groupsv2.GroupsV2AuthorizationString;
@@ -44,6 +45,7 @@ import org.whispersystems.signalservice.api.profiles.SignalServiceProfileWrite;
 import org.whispersystems.signalservice.api.push.ContactTokenDetails;
 import org.whispersystems.signalservice.api.push.SignalServiceAddress;
 import org.whispersystems.signalservice.api.push.SignedPreKeyEntity;
+import org.whispersystems.signalservice.api.push.TrustStore;
 import org.whispersystems.signalservice.api.push.exceptions.AuthorizationFailedException;
 import org.whispersystems.signalservice.api.push.exceptions.CaptchaRequiredException;
 import org.whispersystems.signalservice.api.push.exceptions.ConflictException;
@@ -103,9 +105,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.security.KeyManagementException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
+import java.security.*;
+import java.security.cert.CertificateException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -118,9 +119,7 @@ import java.util.UUID;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
+import javax.net.ssl.*;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -151,6 +150,7 @@ public class PushServiceSocket {
   private static final String TURN_SERVER_INFO          = "/v1/accounts/turn";
   private static final String SET_ACCOUNT_ATTRIBUTES    = "/v1/accounts/attributes/";
   private static final String PIN_PATH                  = "/v1/accounts/pin/";
+  private static final String REGISTRATION_PATH         = "/v1/accounts/registration?token=%s";
   private static final String REGISTRATION_LOCK_PATH    = "/v1/accounts/registration_lock";
   private static final String REQUEST_PUSH_CHALLENGE    = "/v1/accounts/fcm/preauth/%s/%s";
   private static final String WHO_AM_I                  = "/v1/accounts/whoami";
@@ -271,6 +271,20 @@ public class PushServiceSocket {
         }
       }
     });
+  }
+
+  public EmbeddedCodeRequestResponse requestEmbeddedVerificationCode() throws IOException {
+    String path = String.format(REGISTRATION_PATH, credentialsProvider.getE164());
+
+    String            responseBody       = makeServiceRequest(path, "GET", null, NO_HEADERS, new ResponseCodeHandler() {
+      @Override
+      public void handle(int responseCode) throws NonSuccessfulResponseCodeException {
+        if (responseCode == 402) {
+          throw new CaptchaRequiredException();
+        }
+      }
+    });
+    return JsonUtil.fromJson(responseBody, EmbeddedCodeRequestResponse.class);
   }
 
   public UUID getOwnUuid() throws IOException {
@@ -1725,12 +1739,14 @@ public class PushServiceSocket {
     return connectionHolders.toArray(new ConnectionHolder[0]);
   }
 
+
   private static OkHttpClient createConnectionClient(SignalUrl url, List<Interceptor> interceptors, Optional<Dns> dns) {
     try {
       TrustManager[] trustManagers = BlacklistingTrustManager.createFor(url.getTrustStore());
 
       SSLContext context = SSLContext.getInstance("TLS");
-      context.init(null, trustManagers, null);
+
+      context.init(getKeyManagers(url.getTrustStore()), trustManagers, (SecureRandom) null);
 
       OkHttpClient.Builder builder = new OkHttpClient.Builder()
                                                      .sslSocketFactory(new Tls12SocketFactory(context.getSocketFactory()), (X509TrustManager)trustManagers[0])
@@ -1746,9 +1762,17 @@ public class PushServiceSocket {
       }
 
       return builder.build();
-    } catch (NoSuchAlgorithmException | KeyManagementException e) {
+    } catch (NoSuchAlgorithmException | KeyManagementException | CertificateException | IOException | UnrecoverableKeyException | KeyStoreException e) {
       throw new AssertionError(e);
     }
+  }
+
+  private static KeyManager[] getKeyManagers(TrustStore trustStore) throws CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException, KeyStoreException {
+    KeyStore keystore_client = KeyStore.getInstance("BKS");
+    keystore_client.load(trustStore.getKeyStoreInputStream(), trustStore.getKeyStorePassword().toCharArray());
+    KeyManagerFactory kmf = KeyManagerFactory.getInstance(KeyManagerFactory.getDefaultAlgorithm());
+    kmf.init(keystore_client, "".toCharArray());
+    return kmf.getKeyManagers();
   }
 
   private String getAuthorizationHeader(CredentialsProvider credentialsProvider) {
