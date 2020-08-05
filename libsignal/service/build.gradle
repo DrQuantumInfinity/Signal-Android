@@ -2,8 +2,9 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-    }
 
+        
+    }
     dependencies {
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
     }
@@ -28,7 +29,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.google.protobuf:protobuf-javalite:3.10.0'
+    implementation 'com.google.protobuf:protobuf-java:3.10.0'
     api 'com.googlecode.libphonenumber:libphonenumber:8.11.0'
     api 'com.fasterxml.jackson.core:jackson-databind:2.9.9.2'
 

@@ -15,7 +15,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.6.3'
+        classpath 'com.android.tools.build:gradle:4.0.0'
         classpath 'androidx.navigation:navigation-safe-args-gradle-plugin:2.1.0'
         classpath 'com.google.protobuf:protobuf-gradle-plugin:0.8.10'
     }
@@ -409,11 +409,11 @@ def signProductionRelease = { variant ->
         File   inputFile  = new File(output.outputFile.path)
         File   outputFile = new File(output.outputFile.parent, apkName.replace('-unsigned', ''))
 
-        new ApkSignerUtil('sun.security.pkcs11.SunPKCS11',
-                          'pkcs11.config',
-                          'PKCS11',
-                          'file:pkcs11.password').calculateSignature(inputFile.getAbsolutePath(),
-                                                                     outputFile.getAbsolutePath())
+//        new ApkSignerUtil('sun.security.pkcs11.SunPKCS11',
+//                          'pkcs11.config',
+//                          'PKCS11',
+//                          'file:pkcs11.password').calculateSignature(inputFile.getAbsolutePath(),
+//                                                                     outputFile.getAbsolutePath())
 
         inputFile.delete()
         outputFile

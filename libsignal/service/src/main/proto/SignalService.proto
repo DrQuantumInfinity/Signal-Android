@@ -39,6 +39,90 @@ message Content {
   optional NullMessage    nullMessage    = 4;
   optional ReceiptMessage receiptMessage = 5;
   optional TypingMessage  typingMessage  = 6;
+
+  // BA-defined content types:
+  optional BACommandMessage           baCommandMessage           = 128;
+  optional BAGeoMessage               baGeoMessage               = 129;
+  optional BACallSessionUpdateMessage baCallSessionUpdateMessage = 130;
+}
+
+message BACallSessionUpdateMessage {
+    // @required
+    optional uint32 timestampUtc = 1;
+    // @required
+    optional uint64 aresSessionId = 2;
+    // @required
+    optional string aresSessionConfig = 3;
+    optional uint32 callAction = 4;
+    optional string senderAat = 5;
+    optional uint64 signalCallId = 6;
+}
+
+message BAGeoMessage {
+    enum Type {
+        GEO_KML_DATA = 0;
+        GEO_IMAGE_DATA = 1;
+    }
+
+    optional Type   type = 1;
+    optional string name = 2;
+    optional uint32 notBeforeUtc = 3;
+    optional uint32 notAfterUtc = 4;
+    optional string authorizationUri = 5;
+    optional string cekUri = 6;
+    optional uint32 payloadLength = 7;
+    optional bytes  payloadData = 8;
+}
+
+message BACommandMessage {
+  enum Type {
+    PULL = 0; //ask the receiver to respond with a specified payload. May include payload data to be pushed at the same time
+    PUSH = 1; //no response required
+  }
+
+  enum PullReq { //this can be extended to support any number of categories of actions
+    EMPTY = 0; //respond with a null payload
+    LOCATION = 1; //respond with a LocationMessage
+  }
+
+  enum Status {
+    OK = 0;
+    TIMEOUT = 1; //stale command received and will not be serviced (note this is provisioned but use is not yet required to be used for LOCATION)
+    UNSUPPORTED = 2; //protocol versions not compatible
+    UNAUTHORIZED = 3; //requested action is disabled in settings for requester or globally
+  }
+
+  message LocationMessage {
+    // @required
+    optional double latitude = 1;
+    // @required
+    optional double longitude = 2;
+    optional double altitude = 3;
+    optional uint64 timestamp = 4;
+    optional double speed = 5;
+    optional double course = 6;
+    optional double horizontalAccuracy = 7;
+    optional double verticalAccuracy = 8;
+    optional uint64 expirationTimestamp = 9;
+  }
+
+  message RegionTraverseMessage {
+    // @required
+    optional uint64 uid = 1;
+    // @required
+    optional bool isInside = 2;
+    // @required
+    optional uint64 timestamp = 3;
+  }
+
+  optional Type type = 1;
+  optional uint64 timestamp = 2;
+  optional PullReq pullReq = 3;
+  optional Status status = 4; // Do not send in pull request, just response
+  optional LocationMessage locationMessage = 5; //ok to include this or any other message types in a Pull Request if you want to push your location at the same time
+  optional uint32 quantity = 6; //used to request repeated location responses
+  optional double interval = 7;
+  optional RegionTraverseMessage regionTraverseMessage = 8;
 }
 
 message CallMessage {
