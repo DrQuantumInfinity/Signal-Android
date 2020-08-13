@@ -69,6 +69,8 @@ public final class SignalServiceContent {
   private final Optional<SignalServiceCallMessage>    callMessage;
   private final Optional<SignalServiceReceiptMessage> readMessage;
   private final Optional<SignalServiceTypingMessage>  typingMessage;
+  private final Optional<SignalServiceGeoMessage>     geoMessage;
+  private final Optional<SignalServiceBaCommandMessage>  baCommandMessage;
 
   private SignalServiceContent(SignalServiceDataMessage message,
                                SignalServiceAddress sender,
@@ -92,6 +94,8 @@ public final class SignalServiceContent {
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
     this.typingMessage      = Optional.absent();
+    this.geoMessage         = Optional.absent();
+    this.baCommandMessage   = Optional.absent();
   }
 
   private SignalServiceContent(SignalServiceSyncMessage synchronizeMessage,
@@ -116,6 +120,8 @@ public final class SignalServiceContent {
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
     this.typingMessage      = Optional.absent();
+    this.geoMessage         = Optional.absent();
+    this.baCommandMessage   = Optional.absent();
   }
 
   private SignalServiceContent(SignalServiceCallMessage callMessage,
@@ -140,6 +146,8 @@ public final class SignalServiceContent {
     this.callMessage        = Optional.of(callMessage);
     this.readMessage        = Optional.absent();
     this.typingMessage      = Optional.absent();
+    this.geoMessage         = Optional.absent();
+    this.baCommandMessage   = Optional.absent();
   }
 
   private SignalServiceContent(SignalServiceReceiptMessage receiptMessage,
@@ -164,6 +172,8 @@ public final class SignalServiceContent {
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.of(receiptMessage);
     this.typingMessage      = Optional.absent();
+    this.geoMessage         = Optional.absent();
+    this.baCommandMessage   = Optional.absent();
   }
 
   private SignalServiceContent(SignalServiceTypingMessage typingMessage,
@@ -188,8 +198,61 @@ public final class SignalServiceContent {
     this.callMessage        = Optional.absent();
     this.readMessage        = Optional.absent();
     this.typingMessage      = Optional.of(typingMessage);
+    this.geoMessage         = Optional.absent();
+    this.baCommandMessage   = Optional.absent();
   }
 
+  private SignalServiceContent(SignalServiceGeoMessage geoMessage,
+                               SignalServiceAddress sender,
+                               int senderDevice,
+                               long timestamp,
+                               long serverReceivedTimestamp,
+                               long serverDeliveredTimestamp,
+                               boolean needsReceipt,
+                               SignalServiceContentProto serializedState)
+  {
+    this.sender                   = sender;
+    this.senderDevice             = senderDevice;
+    this.timestamp                = timestamp;
+    this.serverReceivedTimestamp  = serverReceivedTimestamp;
+    this.serverDeliveredTimestamp = serverDeliveredTimestamp;
+    this.needsReceipt             = needsReceipt;
+    this.serializedState          = serializedState;
+
+    this.message            = Optional.absent();
+    this.synchronizeMessage = Optional.absent();
+    this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.absent();
+    this.typingMessage      = Optional.absent();
+    this.geoMessage         = Optional.of(geoMessage);
+    this.baCommandMessage   = Optional.absent();
+  }
+
+  private SignalServiceContent(SignalServiceBaCommandMessage baCommandMessage,
+                               SignalServiceAddress sender,
+                               int senderDevice,
+                               long timestamp,
+                               long serverReceivedTimestamp,
+                               long serverDeliveredTimestamp,
+                               boolean needsReceipt,
+                               SignalServiceContentProto serializedState)
+  {
+    this.sender                   = sender;
+    this.senderDevice             = senderDevice;
+    this.timestamp                = timestamp;
+    this.serverReceivedTimestamp  = serverReceivedTimestamp;
+    this.serverDeliveredTimestamp = serverDeliveredTimestamp;
+    this.needsReceipt             = needsReceipt;
+    this.serializedState          = serializedState;
+
+    this.message            = Optional.absent();
+    this.synchronizeMessage = Optional.absent();
+    this.callMessage        = Optional.absent();
+    this.readMessage        = Optional.absent();
+    this.typingMessage      = Optional.absent();
+    this.geoMessage         = Optional.absent();
+    this.baCommandMessage   = Optional.of(baCommandMessage);
+  }
   public Optional<SignalServiceDataMessage> getDataMessage() {
     return message;
   }
@@ -208,6 +271,14 @@ public final class SignalServiceContent {
 
   public Optional<SignalServiceTypingMessage> getTypingMessage() {
     return typingMessage;
+  }
+
+  public Optional<SignalServiceBaCommandMessage> getBaCommandMessage() {
+    return baCommandMessage;
+  }
+
+  public Optional<SignalServiceGeoMessage> getGeoMessage() {
+    return geoMessage;
   }
 
   public SignalServiceAddress getSender() {
@@ -312,13 +383,31 @@ public final class SignalServiceContent {
                                         serviceContentProto);
       } else if (message.hasTypingMessage()) {
         return new SignalServiceContent(createTypingMessage(metadata, message.getTypingMessage()),
-                                        metadata.getSender(),
-                                        metadata.getSenderDevice(),
-                                        metadata.getTimestamp(),
-                                        metadata.getServerReceivedTimestamp(),
-                                        metadata.getServerDeliveredTimestamp(),
-                                        false,
-                                        serviceContentProto);
+                metadata.getSender(),
+                metadata.getSenderDevice(),
+                metadata.getTimestamp(),
+                metadata.getServerReceivedTimestamp(),
+                metadata.getServerDeliveredTimestamp(),
+                false,
+                serviceContentProto);
+      } else if (message.hasBaGeoMessage()) {
+        return new SignalServiceContent(createGeoMessage(metadata, message.getBaGeoMessage()),
+                metadata.getSender(),
+                metadata.getSenderDevice(),
+                metadata.getTimestamp(),
+                metadata.getServerReceivedTimestamp(),
+                metadata.getServerDeliveredTimestamp(),
+                false,
+                serviceContentProto);
+      } else if (message.hasBaCommandMessage()) {
+        return new SignalServiceContent(createBaCommandMessage(metadata, message.getBaCommandMessage()),
+                metadata.getSender(),
+                metadata.getSenderDevice(),
+                metadata.getTimestamp(),
+                metadata.getServerReceivedTimestamp(),
+                metadata.getServerDeliveredTimestamp(),
+                false,
+                serviceContentProto);
       }
     }
 
@@ -643,6 +732,63 @@ public final class SignalServiceContent {
     return new SignalServiceTypingMessage(action, content.getTimestamp(),
                                           content.hasGroupId() ? Optional.of(content.getGroupId().toByteArray()) :
                                                                  Optional.<byte[]>absent());
+  }
+
+  private static SignalServiceGeoMessage createGeoMessage(SignalServiceMetadata metadata, SignalServiceProtos.BAGeoMessage content) throws ProtocolInvalidMessageException {
+    SignalServiceGeoMessage.Type type=null;
+
+    if(content.getType() == SignalServiceProtos.BAGeoMessage.Type.GEO_KML_DATA)
+      type = SignalServiceGeoMessage.Type.GEO_KML_DATA;
+    else if(content.getType() == SignalServiceProtos.BAGeoMessage.Type.GEO_IMAGE_DATA)
+      type = SignalServiceGeoMessage.Type.GEO_IMAGE_DATA;
+    if(content.getType() == SignalServiceProtos.BAGeoMessage.Type.GEO_JSON_DATA)
+      type = SignalServiceGeoMessage.Type.GEO_JSON_DATA;
+
+    return new SignalServiceGeoMessage(type,content.getName(),content.getNotBeforeUtc(),content.getNotAfterUtc(), content.getAuthorizationUri(),content.getCekUri(),
+            content.getPayloadLength(),content.getPayloadData().toByteArray());
+  }
+
+  private static SignalServiceBaCommandMessage createBaCommandMessage(SignalServiceMetadata metadata, SignalServiceProtos.BACommandMessage content) throws ProtocolInvalidMessageException {
+//TODO fully implement
+    SignalServiceBaCommandMessage signalServiceBaCommandMessage = null;
+    switch (content.getType()) {
+      case PULL:
+        switch (content.getPullReq()) {
+          case EMPTY:
+            break;
+          case LOCATION:
+            signalServiceBaCommandMessage = SignalServiceBaCommandMessage.forLocationRequest(content.getTimestamp());
+            break;
+        }
+        break;
+      case PUSH:
+        switch (content.getPullReq()) {
+          case EMPTY:
+            break;
+          case LOCATION:
+            switch (content.getStatus()) {
+              case OK:
+                signalServiceBaCommandMessage = SignalServiceBaCommandMessage.forLocation(content.getTimestamp(), createBaLocationMessage(content.getLocationMessage()));
+                break;
+              case TIMEOUT:
+              case UNSUPPORTED:
+              case UNAUTHORIZED:
+                signalServiceBaCommandMessage = SignalServiceBaCommandMessage.forRejection(content.getTimestamp(), SignalServiceBaCommandMessage.Status.values()[ content.getStatus().getNumber()],SignalServiceBaCommandMessage.PullReq.values()[ content.getPullReq().getNumber()]);
+                break;
+            }
+            break;
+        }
+        break;
+    }
+    return signalServiceBaCommandMessage;
+  }
+
+
+  private static LocationMessage createBaLocationMessage(SignalServiceProtos.BACommandMessage.LocationMessage content) throws ProtocolInvalidMessageException {
+
+    return new LocationMessage(content.getTimestamp(), content.getLatitude(), content.getLongitude(), content.getAltitude(),
+            (float) content.getCourse(),(float) content.getSpeed(), (float)content.getHorizontalAccuracy(), (float)content.getVerticalAccuracy(), content.getExpirationTimestamp());
+
   }
 
   private static SignalServiceDataMessage.Quote createQuote(SignalServiceProtos.DataMessage content) throws ProtocolInvalidMessageException {

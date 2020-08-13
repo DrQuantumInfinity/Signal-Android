@@ -213,28 +213,43 @@ public class SignalServiceMessageSender {
      * @param message   The call message.
      * @throws IOException
      */
-    public void sendCallMessage(SignalServiceAddress recipient,
+    public SendMessageResult sendCallMessage(SignalServiceAddress recipient,
                                 Optional<UnidentifiedAccessPair> unidentifiedAccess,
                                 SignalServiceCallMessage message)
             throws IOException, UntrustedIdentityException {
         byte[] content = createCallContent(message);
-        sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, AresId.CALL);
+      return  sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, AresId.CALL);
     }
 
-    public void sendLocation(SignalServiceAddress recipient,
+    public SendMessageResult sendContent(SignalServiceAddress recipient,
+                            Optional<UnidentifiedAccessPair> unidentifiedAccess,
+                            byte[] content, AresId aresId)
+            throws IOException, UntrustedIdentityException {
+     return   sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess),System.currentTimeMillis(), content, false, null, aresId);
+    }
+
+    public List<SendMessageResult> sendContent(List<SignalServiceAddress> recipients,
+                            List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
+                            byte[] content, AresId aresId)
+            throws IOException, UntrustedIdentityException {
+      return  sendMessage(recipients, getTargetUnidentifiedAccess(unidentifiedAccess),System.currentTimeMillis(), content, false, null, aresId);
+    }
+
+    public SendMessageResult sendLocation(SignalServiceAddress recipient,
                              Optional<UnidentifiedAccessPair> unidentifiedAccess,
                              org.whispersystems.signalservice.api.messages.LocationMessage message)
             throws IOException, UntrustedIdentityException {
         byte[] content = createBaCommandContent(message);
-        sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), content, false, null, AresId.ARESID_CMD);
+      return  sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), content, false, null, AresId.ARESID_CMD);
     }
 
-    public void sendGeoMessage(SignalServiceAddress recipient,
+    public SendMessageResult sendGeoMessage(SignalServiceAddress recipient,
                                Optional<UnidentifiedAccessPair> unidentifiedAccess,
-                               org.whispersystems.signalservice.api.messages.SignalServiceGeoMessage message)
+                               org.whispersystems.signalservice.api.messages.SignalServiceGeoMessage message,
+                                            Optional<AresId> aresId)
             throws IOException, UntrustedIdentityException {
         byte[] content = createGeoMessageContent(message);
-        sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, AresId.GEO);
+        return sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, aresId.isPresent() ? aresId.get() : AresId.GEO);
     }
 
     /**
@@ -1277,6 +1292,7 @@ public class SignalServiceMessageSender {
         Content.Builder container = Content.newBuilder();
         BAGeoMessage.Builder builder = BAGeoMessage.newBuilder();
         builder.setName(message.getName());
+        builder.setType(BAGeoMessage.Type.forNumber(message.getType().ordinal()));
         builder.setNotBeforeUtc(message.getNotBeforeUtc());
         builder.setNotAfterUtc(message.getNotAfterUtc());
         builder.setAuthorizationUri(message.getAuthorizationUri());
@@ -1285,9 +1301,7 @@ public class SignalServiceMessageSender {
         builder.setPayloadLength(message.getPayloadLength());
         builder.setPayloadData(ByteString.copyFrom(message.getPayloadData()));
         return container.setBaGeoMessage(builder).
-
                 build().
-
                 toByteArray();
     }
 

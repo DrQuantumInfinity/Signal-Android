@@ -3794,6 +3794,10 @@ public final class SignalServiceProtos {
        * <code>GEO_IMAGE_DATA = 1;</code>
        */
       GEO_IMAGE_DATA(1),
+      /**
+       * <code>GEO_JSON_DATA = 2;</code>
+       */
+      GEO_JSON_DATA(2),
       ;
 
       /**
@@ -3804,6 +3808,10 @@ public final class SignalServiceProtos {
        * <code>GEO_IMAGE_DATA = 1;</code>
        */
       public static final int GEO_IMAGE_DATA_VALUE = 1;
+      /**
+       * <code>GEO_JSON_DATA = 2;</code>
+       */
+      public static final int GEO_JSON_DATA_VALUE = 2;
 
 
       @java.lang.Override
@@ -3825,6 +3833,7 @@ public final class SignalServiceProtos {
         switch (value) {
           case 0: return GEO_KML_DATA;
           case 1: return GEO_IMAGE_DATA;
+          case 2: return GEO_JSON_DATA;
           default: return null;
         }
       }
