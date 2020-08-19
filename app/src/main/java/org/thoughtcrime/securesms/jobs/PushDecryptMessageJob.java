@@ -237,6 +237,7 @@ public final class PushDecryptMessageJob extends BaseJob {
 
     GroupId groupId = null;
     try {
+
       groupId = GroupUtil.idFromGroupContext(e.getGroup().orNull());
     } catch (BadGroupIdException ex) {
       Log.w(TAG, "Bad group id found in unsupported data message", ex);

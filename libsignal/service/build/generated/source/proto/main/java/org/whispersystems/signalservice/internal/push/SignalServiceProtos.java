@@ -4875,6 +4875,17 @@ public final class SignalServiceProtos {
      * @return The regionTraverseMessage.
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.RegionTraverseMessage getRegionTraverseMessage();
+
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     * @return Whether the zmqTopicRegistrationMessage field is set.
+     */
+    boolean hasZmqTopicRegistrationMessage();
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     * @return The zmqTopicRegistrationMessage.
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage getZmqTopicRegistrationMessage();
   }
   /**
    * Protobuf type {@code signalservice.BACommandMessage}
@@ -5011,6 +5022,14 @@ public final class SignalServiceProtos {
        * <code>LOCATION = 1;</code>
        */
       LOCATION(1),
+      /**
+       * <pre>
+       *forward all zmq messages matching the topic
+       * </pre>
+       *
+       * <code>ZMQ_TOPIC = 2;</code>
+       */
+      ZMQ_TOPIC(2),
       ;
 
       /**
@@ -5029,6 +5048,14 @@ public final class SignalServiceProtos {
        * <code>LOCATION = 1;</code>
        */
       public static final int LOCATION_VALUE = 1;
+      /**
+       * <pre>
+       *forward all zmq messages matching the topic
+       * </pre>
+       *
+       * <code>ZMQ_TOPIC = 2;</code>
+       */
+      public static final int ZMQ_TOPIC_VALUE = 2;
 
 
       @java.lang.Override
@@ -5050,6 +5077,7 @@ public final class SignalServiceProtos {
         switch (value) {
           case 0: return EMPTY;
           case 1: return LOCATION;
+          case 2: return ZMQ_TOPIC;
           default: return null;
         }
       }
@@ -6771,6 +6799,385 @@ public final class SignalServiceProtos {
       }
     }
 
+    public interface ZmqTopicRegistrationMessageOrBuilder extends
+        // @@protoc_insertion_point(interface_extends:signalservice.BACommandMessage.ZmqTopicRegistrationMessage)
+        com.google.protobuf.MessageLiteOrBuilder {
+
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @return Whether the topic field is set.
+       */
+      boolean hasTopic();
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @return The topic.
+       */
+      java.lang.String getTopic();
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @return The bytes for topic.
+       */
+      com.google.protobuf.ByteString
+          getTopicBytes();
+    }
+    /**
+     * Protobuf type {@code signalservice.BACommandMessage.ZmqTopicRegistrationMessage}
+     */
+    public  static final class ZmqTopicRegistrationMessage extends
+        com.google.protobuf.GeneratedMessageLite<
+            ZmqTopicRegistrationMessage, ZmqTopicRegistrationMessage.Builder> implements
+        // @@protoc_insertion_point(message_implements:signalservice.BACommandMessage.ZmqTopicRegistrationMessage)
+        ZmqTopicRegistrationMessageOrBuilder {
+      private ZmqTopicRegistrationMessage() {
+        topic_ = "";
+      }
+      private int bitField0_;
+      public static final int TOPIC_FIELD_NUMBER = 1;
+      private java.lang.String topic_;
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @return Whether the topic field is set.
+       */
+      @java.lang.Override
+      public boolean hasTopic() {
+        return ((bitField0_ & 0x00000001) != 0);
+      }
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @return The topic.
+       */
+      @java.lang.Override
+      public java.lang.String getTopic() {
+        return topic_;
+      }
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @return The bytes for topic.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString
+          getTopicBytes() {
+        return com.google.protobuf.ByteString.copyFromUtf8(topic_);
+      }
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @param value The topic to set.
+       */
+      private void setTopic(
+          java.lang.String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        topic_ = value;
+      }
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       */
+      private void clearTopic() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        topic_ = getDefaultInstance().getTopic();
+      }
+      /**
+       * <pre>
+       * &#64;required
+       * </pre>
+       *
+       * <code>optional string topic = 1;</code>
+       * @param value The bytes for topic to set.
+       */
+      private void setTopicBytes(
+          com.google.protobuf.ByteString value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        topic_ = value.toStringUtf8();
+      }
+
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          java.nio.ByteBuffer data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, data);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          java.nio.ByteBuffer data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, data, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          com.google.protobuf.ByteString data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, data);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          com.google.protobuf.ByteString data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, data, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(byte[] data)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, data);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          byte[] data,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, data, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, input);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, input, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseDelimitedFrom(java.io.InputStream input)
+          throws java.io.IOException {
+        return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseDelimitedFrom(
+          java.io.InputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          com.google.protobuf.CodedInputStream input)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, input);
+      }
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage parseFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        return com.google.protobuf.GeneratedMessageLite.parseFrom(
+            DEFAULT_INSTANCE, input, extensionRegistry);
+      }
+
+      public static Builder newBuilder() {
+        return (Builder) DEFAULT_INSTANCE.createBuilder();
+      }
+      public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage prototype) {
+        return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+      }
+
+      /**
+       * Protobuf type {@code signalservice.BACommandMessage.ZmqTopicRegistrationMessage}
+       */
+      public static final class Builder extends
+          com.google.protobuf.GeneratedMessageLite.Builder<
+            org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage, Builder> implements
+          // @@protoc_insertion_point(builder_implements:signalservice.BACommandMessage.ZmqTopicRegistrationMessage)
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessageOrBuilder {
+        // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.newBuilder()
+        private Builder() {
+          super(DEFAULT_INSTANCE);
+        }
+
+
+        /**
+         * <pre>
+         * &#64;required
+         * </pre>
+         *
+         * <code>optional string topic = 1;</code>
+         * @return Whether the topic field is set.
+         */
+        @java.lang.Override
+        public boolean hasTopic() {
+          return instance.hasTopic();
+        }
+        /**
+         * <pre>
+         * &#64;required
+         * </pre>
+         *
+         * <code>optional string topic = 1;</code>
+         * @return The topic.
+         */
+        @java.lang.Override
+        public java.lang.String getTopic() {
+          return instance.getTopic();
+        }
+        /**
+         * <pre>
+         * &#64;required
+         * </pre>
+         *
+         * <code>optional string topic = 1;</code>
+         * @return The bytes for topic.
+         */
+        @java.lang.Override
+        public com.google.protobuf.ByteString
+            getTopicBytes() {
+          return instance.getTopicBytes();
+        }
+        /**
+         * <pre>
+         * &#64;required
+         * </pre>
+         *
+         * <code>optional string topic = 1;</code>
+         * @param value The topic to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTopic(
+            java.lang.String value) {
+          copyOnWrite();
+          instance.setTopic(value);
+          return this;
+        }
+        /**
+         * <pre>
+         * &#64;required
+         * </pre>
+         *
+         * <code>optional string topic = 1;</code>
+         * @return This builder for chaining.
+         */
+        public Builder clearTopic() {
+          copyOnWrite();
+          instance.clearTopic();
+          return this;
+        }
+        /**
+         * <pre>
+         * &#64;required
+         * </pre>
+         *
+         * <code>optional string topic = 1;</code>
+         * @param value The bytes for topic to set.
+         * @return This builder for chaining.
+         */
+        public Builder setTopicBytes(
+            com.google.protobuf.ByteString value) {
+          copyOnWrite();
+          instance.setTopicBytes(value);
+          return this;
+        }
+
+        // @@protoc_insertion_point(builder_scope:signalservice.BACommandMessage.ZmqTopicRegistrationMessage)
+      }
+      @java.lang.Override
+      @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+      protected final java.lang.Object dynamicMethod(
+          com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+          java.lang.Object arg0, java.lang.Object arg1) {
+        switch (method) {
+          case NEW_MUTABLE_INSTANCE: {
+            return new org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage();
+          }
+          case NEW_BUILDER: {
+            return new Builder();
+          }
+          case BUILD_MESSAGE_INFO: {
+              java.lang.Object[] objects = new java.lang.Object[] {
+                "bitField0_",
+                "topic_",
+              };
+              java.lang.String info =
+                  "\u0001\u0001\u0000\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0001\b\u0000";
+              return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+          }
+          // fall through
+          case GET_DEFAULT_INSTANCE: {
+            return DEFAULT_INSTANCE;
+          }
+          case GET_PARSER: {
+            com.google.protobuf.Parser<org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage> parser = PARSER;
+            if (parser == null) {
+              synchronized (org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.class) {
+                parser = PARSER;
+                if (parser == null) {
+                  parser =
+                      new DefaultInstanceBasedParser<org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage>(
+                          DEFAULT_INSTANCE);
+                  PARSER = parser;
+                }
+              }
+            }
+            return parser;
+        }
+        case GET_MEMOIZED_IS_INITIALIZED: {
+          return (byte) 1;
+        }
+        case SET_MEMOIZED_IS_INITIALIZED: {
+          return null;
+        }
+        }
+        throw new UnsupportedOperationException();
+      }
+
+
+      // @@protoc_insertion_point(class_scope:signalservice.BACommandMessage.ZmqTopicRegistrationMessage)
+      private static final org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage DEFAULT_INSTANCE;
+      static {
+        ZmqTopicRegistrationMessage defaultInstance = new ZmqTopicRegistrationMessage();
+        // New instances are implicitly immutable so no need to make
+        // immutable.
+        DEFAULT_INSTANCE = defaultInstance;
+        com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+          ZmqTopicRegistrationMessage.class, defaultInstance);
+      }
+
+      public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+      }
+
+      private static volatile com.google.protobuf.Parser<ZmqTopicRegistrationMessage> PARSER;
+
+      public static com.google.protobuf.Parser<ZmqTopicRegistrationMessage> parser() {
+        return DEFAULT_INSTANCE.getParserForType();
+      }
+    }
+
     private int bitField0_;
     public static final int TYPE_FIELD_NUMBER = 1;
     private int type_;
@@ -7158,6 +7565,64 @@ public final class SignalServiceProtos {
      */
     private void clearRegionTraverseMessage() {  regionTraverseMessage_ = null;
       bitField0_ = (bitField0_ & ~0x00000080);
+    }
+
+    public static final int ZMQTOPICREGISTRATIONMESSAGE_FIELD_NUMBER = 9;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage_;
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     */
+    @java.lang.Override
+    public boolean hasZmqTopicRegistrationMessage() {
+      return ((bitField0_ & 0x00000100) != 0);
+    }
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     */
+    @java.lang.Override
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage getZmqTopicRegistrationMessage() {
+      return zmqTopicRegistrationMessage_ == null ? org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.getDefaultInstance() : zmqTopicRegistrationMessage_;
+    }
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     */
+    private void setZmqTopicRegistrationMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      zmqTopicRegistrationMessage_ = value;
+      bitField0_ |= 0x00000100;
+      }
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     */
+    private void setZmqTopicRegistrationMessage(
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.Builder builderForValue) {
+      zmqTopicRegistrationMessage_ = builderForValue.build();
+      bitField0_ |= 0x00000100;
+    }
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeZmqTopicRegistrationMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      if (zmqTopicRegistrationMessage_ != null &&
+          zmqTopicRegistrationMessage_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.getDefaultInstance()) {
+        zmqTopicRegistrationMessage_ =
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.newBuilder(zmqTopicRegistrationMessage_).mergeFrom(value).buildPartial();
+      } else {
+        zmqTopicRegistrationMessage_ = value;
+      }
+      bitField0_ |= 0x00000100;
+    }
+    /**
+     * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+     */
+    private void clearZmqTopicRegistrationMessage() {  zmqTopicRegistrationMessage_ = null;
+      bitField0_ = (bitField0_ & ~0x00000100);
     }
 
     public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage parseFrom(
@@ -7621,6 +8086,53 @@ public final class SignalServiceProtos {
         return this;
       }
 
+      /**
+       * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+       */
+      @java.lang.Override
+      public boolean hasZmqTopicRegistrationMessage() {
+        return instance.hasZmqTopicRegistrationMessage();
+      }
+      /**
+       * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+       */
+      @java.lang.Override
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage getZmqTopicRegistrationMessage() {
+        return instance.getZmqTopicRegistrationMessage();
+      }
+      /**
+       * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+       */
+      public Builder setZmqTopicRegistrationMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage value) {
+        copyOnWrite();
+        instance.setZmqTopicRegistrationMessage(value);
+        return this;
+        }
+      /**
+       * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+       */
+      public Builder setZmqTopicRegistrationMessage(
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage.Builder builderForValue) {
+        copyOnWrite();
+        instance.setZmqTopicRegistrationMessage(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+       */
+      public Builder mergeZmqTopicRegistrationMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.ZmqTopicRegistrationMessage value) {
+        copyOnWrite();
+        instance.mergeZmqTopicRegistrationMessage(value);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.BACommandMessage.ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;</code>
+       */
+      public Builder clearZmqTopicRegistrationMessage() {  copyOnWrite();
+        instance.clearZmqTopicRegistrationMessage();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.BACommandMessage)
     }
     @java.lang.Override
@@ -7649,11 +8161,12 @@ public final class SignalServiceProtos {
               "quantity_",
               "interval_",
               "regionTraverseMessage_",
+              "zmqTopicRegistrationMessage_",
             };
             java.lang.String info =
-                "\u0001\b\u0000\u0001\u0001\b\b\u0000\u0000\u0000\u0001\f\u0000\u0002\u0003\u0001" +
+                "\u0001\t\u0000\u0001\u0001\t\t\u0000\u0000\u0000\u0001\f\u0000\u0002\u0003\u0001" +
                 "\u0003\f\u0002\u0004\f\u0003\u0005\t\u0004\u0006\u000b\u0005\u0007\u0000\u0006\b" +
-                "\t\u0007";
+                "\t\u0007\t\t\b";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through

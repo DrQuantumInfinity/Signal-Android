@@ -84,6 +84,7 @@ message BACommandMessage {
   enum PullReq { //this can be extended to support any number of categories of actions
     EMPTY = 0; //respond with a null payload
     LOCATION = 1; //respond with a LocationMessage
+    ZMQ_TOPIC = 2; //forward all zmq messages matching the topic
   }
 
   enum Status {
@@ -116,6 +117,11 @@ message BACommandMessage {
     optional uint64 timestamp = 3;
   }
 
+  message ZmqTopicRegistrationMessage {
+    // @required
+    optional string topic = 1;
+  }
+
   optional Type type = 1;
   optional uint64 timestamp = 2;
   optional PullReq pullReq = 3;
@@ -124,6 +130,7 @@ message BACommandMessage {
   optional uint32 quantity = 6; //used to request repeated location responses
   optional double interval = 7;
   optional RegionTraverseMessage regionTraverseMessage = 8;
+  optional ZmqTopicRegistrationMessage zmqTopicRegistrationMessage = 9;
 }
 
 message CallMessage {
