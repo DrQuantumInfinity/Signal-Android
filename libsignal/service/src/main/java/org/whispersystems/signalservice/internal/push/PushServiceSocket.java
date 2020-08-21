@@ -31,6 +31,7 @@ import org.whispersystems.libsignal.state.PreKeyRecord;
 import org.whispersystems.libsignal.state.SignedPreKeyRecord;
 import org.whispersystems.libsignal.util.Pair;
 import org.whispersystems.libsignal.util.guava.Optional;
+import org.whispersystems.signalservice.api.AutoGroupRequestResponse;
 import org.whispersystems.signalservice.api.EmbeddedCodeRequestResponse;
 import org.whispersystems.signalservice.api.crypto.UnidentifiedAccess;
 import org.whispersystems.signalservice.api.groupsv2.CredentialResponse;
@@ -197,6 +198,8 @@ public class PushServiceSocket {
   private static final String GROUPSV2_GROUP_CHANGES    = "/v1/groups/logs/%s";
   private static final String GROUPSV2_AVATAR_REQUEST   = "/v1/groups/avatar/form";
 
+  private static final String AUTO_GROUP        = "/v1/autogroup";
+
   private static final String SERVER_DELIVERED_TIMESTAMP_HEADER = "X-Signal-Timestamp";
 
   private static final Map<String, String> NO_HEADERS = Collections.emptyMap();
@@ -285,6 +288,18 @@ public class PushServiceSocket {
       }
     });
     return JsonUtil.fromJson(responseBody, EmbeddedCodeRequestResponse.class);
+  }
+
+  public AutoGroupRequestResponse requestAutoGroupConfigs() throws IOException {
+    String            responseBody       = makeServiceRequest(AUTO_GROUP, "GET", null, NO_HEADERS, new ResponseCodeHandler() {
+      @Override
+      public void handle(int responseCode) throws NonSuccessfulResponseCodeException {
+        if (responseCode == 402) {
+          throw new CaptchaRequiredException();
+        }
+      }
+    });
+    return JsonUtil.fromJson(responseBody, AutoGroupRequestResponse.class);
   }
 
   public UUID getOwnUuid() throws IOException {
