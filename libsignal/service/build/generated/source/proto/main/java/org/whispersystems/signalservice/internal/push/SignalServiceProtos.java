@@ -1549,6 +1549,17 @@ public final class SignalServiceProtos {
      * @return The baCallSessionUpdateMessage.
      */
     org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACallSessionUpdateMessage getBaCallSessionUpdateMessage();
+
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     * @return Whether the baAutoSharingGroupMessage field is set.
+     */
+    boolean hasBaAutoSharingGroupMessage();
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     * @return The baAutoSharingGroupMessage.
+     */
+    org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage getBaAutoSharingGroupMessage();
   }
   /**
    * Protobuf type {@code signalservice.Content}
@@ -2107,6 +2118,64 @@ public final class SignalServiceProtos {
       bitField0_ = (bitField0_ & ~0x00000100);
     }
 
+    public static final int BAAUTOSHARINGGROUPMESSAGE_FIELD_NUMBER = 131;
+    private org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage baAutoSharingGroupMessage_;
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     */
+    @java.lang.Override
+    public boolean hasBaAutoSharingGroupMessage() {
+      return ((bitField0_ & 0x00000200) != 0);
+    }
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     */
+    @java.lang.Override
+    public org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage getBaAutoSharingGroupMessage() {
+      return baAutoSharingGroupMessage_ == null ? org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.getDefaultInstance() : baAutoSharingGroupMessage_;
+    }
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     */
+    private void setBaAutoSharingGroupMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      baAutoSharingGroupMessage_ = value;
+      bitField0_ |= 0x00000200;
+      }
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     */
+    private void setBaAutoSharingGroupMessage(
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.Builder builderForValue) {
+      baAutoSharingGroupMessage_ = builderForValue.build();
+      bitField0_ |= 0x00000200;
+    }
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     */
+    @java.lang.SuppressWarnings({"ReferenceEquality"})
+    private void mergeBaAutoSharingGroupMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage value) {
+      if (value == null) {
+        throw new NullPointerException();
+      }
+      if (baAutoSharingGroupMessage_ != null &&
+          baAutoSharingGroupMessage_ != org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.getDefaultInstance()) {
+        baAutoSharingGroupMessage_ =
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.newBuilder(baAutoSharingGroupMessage_).mergeFrom(value).buildPartial();
+      } else {
+        baAutoSharingGroupMessage_ = value;
+      }
+      bitField0_ |= 0x00000200;
+    }
+    /**
+     * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+     */
+    private void clearBaAutoSharingGroupMessage() {  baAutoSharingGroupMessage_ = null;
+      bitField0_ = (bitField0_ & ~0x00000200);
+    }
+
     public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.Content parseFrom(
         java.nio.ByteBuffer data)
         throws com.google.protobuf.InvalidProtocolBufferException {
@@ -2649,6 +2718,53 @@ public final class SignalServiceProtos {
         return this;
       }
 
+      /**
+       * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+       */
+      @java.lang.Override
+      public boolean hasBaAutoSharingGroupMessage() {
+        return instance.hasBaAutoSharingGroupMessage();
+      }
+      /**
+       * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+       */
+      @java.lang.Override
+      public org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage getBaAutoSharingGroupMessage() {
+        return instance.getBaAutoSharingGroupMessage();
+      }
+      /**
+       * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+       */
+      public Builder setBaAutoSharingGroupMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage value) {
+        copyOnWrite();
+        instance.setBaAutoSharingGroupMessage(value);
+        return this;
+        }
+      /**
+       * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+       */
+      public Builder setBaAutoSharingGroupMessage(
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.Builder builderForValue) {
+        copyOnWrite();
+        instance.setBaAutoSharingGroupMessage(builderForValue);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+       */
+      public Builder mergeBaAutoSharingGroupMessage(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage value) {
+        copyOnWrite();
+        instance.mergeBaAutoSharingGroupMessage(value);
+        return this;
+      }
+      /**
+       * <code>optional .signalservice.BAAutoSharingGroupMessage baAutoSharingGroupMessage = 131;</code>
+       */
+      public Builder clearBaAutoSharingGroupMessage() {  copyOnWrite();
+        instance.clearBaAutoSharingGroupMessage();
+        return this;
+      }
+
       // @@protoc_insertion_point(builder_scope:signalservice.Content)
     }
     @java.lang.Override
@@ -2675,11 +2791,12 @@ public final class SignalServiceProtos {
               "baCommandMessage_",
               "baGeoMessage_",
               "baCallSessionUpdateMessage_",
+              "baAutoSharingGroupMessage_",
             };
             java.lang.String info =
-                "\u0001\t\u0000\u0001\u0001\u0082\t\u0000\u0000\u0000\u0001\t\u0000\u0002\t\u0001" +
+                "\u0001\n\u0000\u0001\u0001\u0083\n\u0000\u0000\u0000\u0001\t\u0000\u0002\t\u0001" +
                 "\u0003\t\u0002\u0004\t\u0003\u0005\t\u0004\u0006\t\u0005\u0080\t\u0006\u0081\t\u0007" +
-                "\u0082\t\b";
+                "\u0082\t\b\u0083\t\t";
             return newMessageInfo(DEFAULT_INSTANCE, info, objects);
         }
         // fall through
@@ -4756,6 +4873,276 @@ public final class SignalServiceProtos {
     private static volatile com.google.protobuf.Parser<BAGeoMessage> PARSER;
 
     public static com.google.protobuf.Parser<BAGeoMessage> parser() {
+      return DEFAULT_INSTANCE.getParserForType();
+    }
+  }
+
+  public interface BAAutoSharingGroupMessageOrBuilder extends
+      // @@protoc_insertion_point(interface_extends:signalservice.BAAutoSharingGroupMessage)
+      com.google.protobuf.MessageLiteOrBuilder {
+
+    /**
+     * <code>optional bytes payload = 1;</code>
+     * @return Whether the payload field is set.
+     */
+    boolean hasPayload();
+    /**
+     * <code>optional bytes payload = 1;</code>
+     * @return The payload.
+     */
+    com.google.protobuf.ByteString getPayload();
+  }
+  /**
+   * Protobuf type {@code signalservice.BAAutoSharingGroupMessage}
+   */
+  public  static final class BAAutoSharingGroupMessage extends
+      com.google.protobuf.GeneratedMessageLite<
+          BAAutoSharingGroupMessage, BAAutoSharingGroupMessage.Builder> implements
+      // @@protoc_insertion_point(message_implements:signalservice.BAAutoSharingGroupMessage)
+      BAAutoSharingGroupMessageOrBuilder {
+    private BAAutoSharingGroupMessage() {
+      payload_ = com.google.protobuf.ByteString.EMPTY;
+    }
+    private int bitField0_;
+    public static final int PAYLOAD_FIELD_NUMBER = 1;
+    private com.google.protobuf.ByteString payload_;
+    /**
+     * <code>optional bytes payload = 1;</code>
+     * @return Whether the payload field is set.
+     */
+    @java.lang.Override
+    public boolean hasPayload() {
+      return ((bitField0_ & 0x00000001) != 0);
+    }
+    /**
+     * <code>optional bytes payload = 1;</code>
+     * @return The payload.
+     */
+    @java.lang.Override
+    public com.google.protobuf.ByteString getPayload() {
+      return payload_;
+    }
+    /**
+     * <code>optional bytes payload = 1;</code>
+     * @param value The payload to set.
+     */
+    private void setPayload(com.google.protobuf.ByteString value) {
+      if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+      payload_ = value;
+    }
+    /**
+     * <code>optional bytes payload = 1;</code>
+     */
+    private void clearPayload() {
+      bitField0_ = (bitField0_ & ~0x00000001);
+      payload_ = getDefaultInstance().getPayload();
+    }
+
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        java.nio.ByteBuffer data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        java.nio.ByteBuffer data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, data, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return parseDelimitedFrom(DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input);
+    }
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return com.google.protobuf.GeneratedMessageLite.parseFrom(
+          DEFAULT_INSTANCE, input, extensionRegistry);
+    }
+
+    public static Builder newBuilder() {
+      return (Builder) DEFAULT_INSTANCE.createBuilder();
+    }
+    public static Builder newBuilder(org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage prototype) {
+      return (Builder) DEFAULT_INSTANCE.createBuilder(prototype);
+    }
+
+    /**
+     * Protobuf type {@code signalservice.BAAutoSharingGroupMessage}
+     */
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessageLite.Builder<
+          org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage, Builder> implements
+        // @@protoc_insertion_point(builder_implements:signalservice.BAAutoSharingGroupMessage)
+        org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessageOrBuilder {
+      // Construct using org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.newBuilder()
+      private Builder() {
+        super(DEFAULT_INSTANCE);
+      }
+
+
+      /**
+       * <code>optional bytes payload = 1;</code>
+       * @return Whether the payload field is set.
+       */
+      @java.lang.Override
+      public boolean hasPayload() {
+        return instance.hasPayload();
+      }
+      /**
+       * <code>optional bytes payload = 1;</code>
+       * @return The payload.
+       */
+      @java.lang.Override
+      public com.google.protobuf.ByteString getPayload() {
+        return instance.getPayload();
+      }
+      /**
+       * <code>optional bytes payload = 1;</code>
+       * @param value The payload to set.
+       * @return This builder for chaining.
+       */
+      public Builder setPayload(com.google.protobuf.ByteString value) {
+        copyOnWrite();
+        instance.setPayload(value);
+        return this;
+      }
+      /**
+       * <code>optional bytes payload = 1;</code>
+       * @return This builder for chaining.
+       */
+      public Builder clearPayload() {
+        copyOnWrite();
+        instance.clearPayload();
+        return this;
+      }
+
+      // @@protoc_insertion_point(builder_scope:signalservice.BAAutoSharingGroupMessage)
+    }
+    @java.lang.Override
+    @java.lang.SuppressWarnings({"unchecked", "fallthrough"})
+    protected final java.lang.Object dynamicMethod(
+        com.google.protobuf.GeneratedMessageLite.MethodToInvoke method,
+        java.lang.Object arg0, java.lang.Object arg1) {
+      switch (method) {
+        case NEW_MUTABLE_INSTANCE: {
+          return new org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage();
+        }
+        case NEW_BUILDER: {
+          return new Builder();
+        }
+        case BUILD_MESSAGE_INFO: {
+            java.lang.Object[] objects = new java.lang.Object[] {
+              "bitField0_",
+              "payload_",
+            };
+            java.lang.String info =
+                "\u0001\u0001\u0000\u0001\u0001\u0001\u0001\u0000\u0000\u0000\u0001\n\u0000";
+            return newMessageInfo(DEFAULT_INSTANCE, info, objects);
+        }
+        // fall through
+        case GET_DEFAULT_INSTANCE: {
+          return DEFAULT_INSTANCE;
+        }
+        case GET_PARSER: {
+          com.google.protobuf.Parser<org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage> parser = PARSER;
+          if (parser == null) {
+            synchronized (org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage.class) {
+              parser = PARSER;
+              if (parser == null) {
+                parser =
+                    new DefaultInstanceBasedParser<org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage>(
+                        DEFAULT_INSTANCE);
+                PARSER = parser;
+              }
+            }
+          }
+          return parser;
+      }
+      case GET_MEMOIZED_IS_INITIALIZED: {
+        return (byte) 1;
+      }
+      case SET_MEMOIZED_IS_INITIALIZED: {
+        return null;
+      }
+      }
+      throw new UnsupportedOperationException();
+    }
+
+
+    // @@protoc_insertion_point(class_scope:signalservice.BAAutoSharingGroupMessage)
+    private static final org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage DEFAULT_INSTANCE;
+    static {
+      BAAutoSharingGroupMessage defaultInstance = new BAAutoSharingGroupMessage();
+      // New instances are implicitly immutable so no need to make
+      // immutable.
+      DEFAULT_INSTANCE = defaultInstance;
+      com.google.protobuf.GeneratedMessageLite.registerDefaultInstance(
+        BAAutoSharingGroupMessage.class, defaultInstance);
+    }
+
+    public static org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAAutoSharingGroupMessage getDefaultInstance() {
+      return DEFAULT_INSTANCE;
+    }
+
+    private static volatile com.google.protobuf.Parser<BAAutoSharingGroupMessage> PARSER;
+
+    public static com.google.protobuf.Parser<BAAutoSharingGroupMessage> parser() {
       return DEFAULT_INSTANCE.getParserForType();
     }
   }

@@ -51,6 +51,7 @@ import org.whispersystems.signalservice.internal.push.ProvisioningProtos;
 import org.whispersystems.signalservice.internal.push.PushAttachmentData;
 import org.whispersystems.signalservice.internal.push.PushServiceSocket;
 import org.whispersystems.signalservice.internal.push.SendMessageResponse;
+import org.whispersystems.signalservice.internal.push.SignalServiceProtos;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.AttachmentPointer;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.BAGeoMessage;
 import org.whispersystems.signalservice.internal.push.SignalServiceProtos.CallMessage;
@@ -91,6 +92,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import static org.whispersystems.signalservice.internal.push.SignalServiceProtos.*;
 
 /**
  * The main interface for sending Signal Service messages.
@@ -214,42 +217,51 @@ public class SignalServiceMessageSender {
      * @throws IOException
      */
     public SendMessageResult sendCallMessage(SignalServiceAddress recipient,
-                                Optional<UnidentifiedAccessPair> unidentifiedAccess,
-                                SignalServiceCallMessage message)
+                                             Optional<UnidentifiedAccessPair> unidentifiedAccess,
+                                             SignalServiceCallMessage message)
             throws IOException, UntrustedIdentityException {
         byte[] content = createCallContent(message);
-      return  sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, AresId.CALL);
+        return sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, AresId.CALL);
     }
 
-    public SendMessageResult sendContent(SignalServiceAddress recipient,
-                            Optional<UnidentifiedAccessPair> unidentifiedAccess,
-                            byte[] content, AresId aresId)
-            throws IOException, UntrustedIdentityException {
-     return   sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess),System.currentTimeMillis(), content, false, null, aresId);
-    }
-
-    public List<SendMessageResult> sendContent(List<SignalServiceAddress> recipients,
-                            List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
-                            byte[] content, AresId aresId)
-            throws IOException, UntrustedIdentityException {
-      return  sendMessage(recipients, getTargetUnidentifiedAccess(unidentifiedAccess),System.currentTimeMillis(), content, false, null, aresId);
-    }
+//    public SendMessageResult sendContent(SignalServiceAddress recipient,
+//                            Optional<UnidentifiedAccessPair> unidentifiedAccess,
+//                            byte[] content, AresId aresId)
+//            throws IOException, UntrustedIdentityException {
+//     return   sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess),System.currentTimeMillis(), content, false, null, aresId);
+//    }
+//
+//    public List<SendMessageResult> sendContent(List<SignalServiceAddress> recipients,
+//                            List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
+//                            byte[] content, AresId aresId)
+//            throws IOException, UntrustedIdentityException {
+//      return  sendMessage(recipients, getTargetUnidentifiedAccess(unidentifiedAccess),System.currentTimeMillis(), content, false, null, aresId);
+//    }
 
     public SendMessageResult sendLocation(SignalServiceAddress recipient,
-                             Optional<UnidentifiedAccessPair> unidentifiedAccess,
-                             org.whispersystems.signalservice.api.messages.LocationMessage message)
+                                          Optional<UnidentifiedAccessPair> unidentifiedAccess,
+                                          org.whispersystems.signalservice.api.messages.LocationMessage message)
             throws IOException, UntrustedIdentityException {
         byte[] content = createBaCommandContent(message);
-      return  sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), content, false, null, AresId.ARESID_CMD);
+        return sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), message.getTimestamp(), content, false, null, AresId.ARESID_CMD);
     }
 
     public SendMessageResult sendGeoMessage(SignalServiceAddress recipient,
-                               Optional<UnidentifiedAccessPair> unidentifiedAccess,
-                               org.whispersystems.signalservice.api.messages.SignalServiceGeoMessage message,
+                                            Optional<UnidentifiedAccessPair> unidentifiedAccess,
+                                            org.whispersystems.signalservice.api.messages.SignalServiceGeoMessage message,
                                             Optional<AresId> aresId)
             throws IOException, UntrustedIdentityException {
         byte[] content = createGeoMessageContent(message);
         return sendMessage(recipient, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, aresId.isPresent() ? aresId.get() : AresId.GEO);
+    }
+
+    public List<SendMessageResult> sendAutoGroupMessage(List<SignalServiceAddress> recipients,
+                                                        List<Optional<UnidentifiedAccessPair>> unidentifiedAccess,
+                                                        org.whispersystems.signalservice.api.messages.SignalServiceAutoSharingGroupMessage message,
+                                                        Optional<AresId> aresId)
+            throws IOException {
+        byte[] content = createAutoSharingGroupMessageContent(message);
+        return sendMessage(recipients, getTargetUnidentifiedAccess(unidentifiedAccess), System.currentTimeMillis(), content, false, null, aresId.isPresent() ? aresId.get() : AresId.ARESID_CMD);
     }
 
     /**
@@ -1305,6 +1317,13 @@ public class SignalServiceMessageSender {
                 toByteArray();
     }
 
+    private byte[] createAutoSharingGroupMessageContent(SignalServiceAutoSharingGroupMessage message) {
+        Content.Builder container = Content.newBuilder();
+        BAAutoSharingGroupMessage.Builder builder = BAAutoSharingGroupMessage.newBuilder();
+        builder.setPayload(ByteString.copyFrom(message.getPayload()));
+        return container.setBaAutoSharingGroupMessage(builder).build().toByteArray();
+    }
+
     private static BACommandMessage.LocationMessage createProtoLocationMessage(LocationMessage message) {
         BACommandMessage.LocationMessage.Builder builder = BACommandMessage.LocationMessage.newBuilder();
         builder.setTimestamp(message.getTimestamp());
@@ -1320,7 +1339,7 @@ public class SignalServiceMessageSender {
 
     private byte[] createBaCommandContent(LocationMessage locationMessage) {
         Content.Builder container = Content.newBuilder();
-        org.whispersystems.signalservice.internal.push.SignalServiceProtos.BACommandMessage.Builder builder = BACommandMessage.newBuilder();
+        BACommandMessage.Builder builder = BACommandMessage.newBuilder();
 //    builder.setTimestamp(messageTimestamp);
         builder.setPullReq(BACommandMessage.PullReq.LOCATION);
         builder.setType(BACommandMessage.Type.PUSH);

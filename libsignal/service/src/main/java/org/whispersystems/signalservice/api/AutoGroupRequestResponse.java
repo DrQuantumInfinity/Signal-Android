@@ -18,7 +18,7 @@ public class AutoGroupRequestResponse {
         return configs;
     }
 
-    class AutoGroupConfig {
+    public class AutoGroupConfig {
         @JsonProperty("members")
         ArrayList<String> members;
 

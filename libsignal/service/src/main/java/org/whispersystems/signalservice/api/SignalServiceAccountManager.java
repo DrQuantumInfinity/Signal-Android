@@ -215,8 +215,17 @@ public class SignalServiceAccountManager {
    *
    * @throws IOException
    */
+  public AutoGroupRequestResponse requestAutoGroupConfigs() throws IOException {
+    return this.pushServiceSocket.requestAutoGroupConfigs();
+  }
+
+  /**
+   * Request a verification code for the embedded client.
+   *
+   * @throws IOException
+   */
   public EmbeddedCodeRequestResponse requestEmbeddedVerificationCode() throws IOException {
-   return this.pushServiceSocket.requestEmbeddedVerificationCode();
+    return this.pushServiceSocket.requestEmbeddedVerificationCode();
   }
 
   /**

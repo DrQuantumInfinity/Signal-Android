@@ -44,6 +44,7 @@ message Content {
   optional BACommandMessage           baCommandMessage           = 128;
   optional BAGeoMessage               baGeoMessage               = 129;
   optional BACallSessionUpdateMessage baCallSessionUpdateMessage = 130;
+  optional BAAutoSharingGroupMessage  baAutoSharingGroupMessage  = 131;
 }
 
 message BACallSessionUpdateMessage {
@@ -73,6 +74,10 @@ message BAGeoMessage {
     optional string cekUri = 6;
     optional uint32 payloadLength = 7;
     optional bytes  payloadData = 8;
+}
+
+message BAAutoSharingGroupMessage {
+  optional bytes payload = 1;
 }
 
 message BACommandMessage {
